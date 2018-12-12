@@ -48,15 +48,14 @@
             {
                 <option>No ingredients in Database</option>
             }
-        </select><br>
+        </select><br><br>
         <button id="assignButton"class="btn btn-primary btn-lg" type="submit">Assign</button>
     </form>
-    <a href="/">Home Page</a><br>
-</div>
+</div><br><br>
 <ul>
 @foreach (Recipe recipe in @Model["recipes"])
 {
-    <li>@recipe.GetName()</li>
+    <li><a href="/recipe/@recipe.GetId()/details">@recipe.GetName()</a></li>
 }
 </ul>
 

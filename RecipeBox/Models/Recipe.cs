@@ -76,8 +76,37 @@ namespace RecipeBox.Models
             }
             return allRecipes;
         }
+        public static Recipe Find(int recipeId)
+        {
+            MySqlConnection conn = DB.Connection();
+            conn.Open();
+            var cmd = conn.CreateCommand() as MySqlCommand;
+            cmd.CommandText = @"SELECT * FROM recipes WHERE id = (@recipe_id);";
+            MySqlParameter recipe = new MySqlParameter();
+            cmd.Parameters.AddWithValue("@recipe_id", recipeId);
+            var rdr = cmd.ExecuteReader() as MySqlDataReader;
+            int id = 0;
+            string name = "";
+            string instructions = "";
+            int rating = 0;
+            while (rdr.Read())
+            {
+                id = rdr.GetInt32(0);
+                name = rdr.GetString(1);
+                instructions = rdr.GetString(2);
+                rating = rdr.GetInt32(3);
+
+            }
+            Recipe foundRecipe = new Recipe(name, instructions, rating);
+            conn.Close();
+            if (conn != null)
+            {
+                conn.Dispose();
+            }
+            return foundRecipe;
+        }
     }
-    // **** Join table methods are below ****
+    // ************************* Join table methods are below ***************************
     public class JoinRecipeIngredient
     {
         private int _id;
@@ -150,6 +179,34 @@ namespace RecipeBox.Models
                 conn.Dispose();
             }
             return recipesByIngredient;
+        }
+
+        public static List<Ingredient> GetIngredientsByRecipe(int recipeId)
+        {
+
+            List<Ingredient> IngredientsByRecipe = new List<Ingredient> { };
+            MySqlConnection conn = DB.Connection();
+            conn.Open();
+            var cmd = conn.CreateCommand() as MySqlCommand;
+            cmd.CommandText = @"SELECT ingredients.* FROM
+                recipes JOIN recipes_ingredients ON (recipes.id = recipes_ingredients.recipe_id)
+                    JOIN ingredients ON (recipes_ingredients.ingredient_id = ingredients.id)
+                WHERE recipes.id = " + recipeId + ";";
+
+            MySqlDataReader rdr = cmd.ExecuteReader() as MySqlDataReader;
+            while (rdr.Read())
+            {
+                int id = rdr.GetInt32(0);
+                string name = rdr.GetString(1);
+                Ingredient newIngredient = new Ingredient(name, id);
+                IngredientsByRecipe.Add(newIngredient);
+            }
+            conn.Close();
+            if (conn != null)
+            {
+                conn.Dispose();
+            }
+            return IngredientsByRecipe;
         }
 
     }

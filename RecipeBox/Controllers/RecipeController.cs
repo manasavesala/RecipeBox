@@ -30,5 +30,16 @@ namespace RecipeBox.Controllers
             assigned.Save();
             return RedirectToAction("New");
         }
+
+        [HttpGet("recipe/{recipeId}/details")]
+        public ActionResult Index(int recipeId)
+        {
+            Dictionary<string, object> model = new Dictionary<string, object> { };
+            Recipe selectedRecipe = Recipe.Find(recipeId);
+            List<Ingredient> ingredientsForRecipe = JoinRecipeIngredient.GetIngredientsByRecipe(recipeId);
+            model.Add("recipe", selectedRecipe);
+            model.Add("ingredients", ingredientsForRecipe);
+            return View(model);
+        }
     }
 }
