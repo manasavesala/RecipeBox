@@ -1,0 +1,21 @@
+@{
+  Layout = "_Layout";
+}
+
+<div class="container">
+<h3>Add a New Ingredient</h3>
+<form action = "/addIngredient" method = "post">
+    <label for = "ingredientName">Ingredient</label>
+    <input type = "text" name = "ingredientName"><br>
+    
+    <button type = "submit">Add Ingredient</button>
+
+</form><br>
+<ul>
+@foreach (var ingredient in @Model)
+{
+    <li>@ingredient.GetName()</li>
+}
+</ul>
+
+</div>

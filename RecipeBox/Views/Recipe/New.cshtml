@@ -1,3 +1,6 @@
+@using RecipeBox.Models;
+@using System.Collections.Generic;
+
 @{
   Layout = "_Layout";
 }
@@ -6,6 +9,7 @@
 <h3>Add a New Recipe</h3>
 
 <form action = "/addRecipe" method = "post">
+    <label for = "ingredients">Select
     <label for = "name">Recipe Name</label>
     <input type = "text" name = "name"><br>
     <label for = "instructions">Recipe Instructions</label>
@@ -15,14 +19,45 @@
     <button type = "submit">Add Recipe</button>
 
 </form><br>
+
+<div class="container">
+<h3>Assign a ingredients to a Recipe</h3>
+    <form action="/recipe/assign" method="post">
+        <select name="recipe">
+            @if (@Model.Count != 0)
+            {
+                @foreach(Recipe recipe in @Model["recipes"])
+                {
+                    <option name="recipe" value=@recipe.GetId()>@recipe.GetName()</option>
+                }
+            }
+            else
+            {
+                <option>No recipes in database</option>
+            }
+        </select><br>
+        <select name="ingredient">
+            @if (@Model.Count != 0)
+            {
+                @foreach(Ingredient ingredient in @Model["ingredients"])
+                {
+                    <option name="ingredient" value=@ingredient.GetId()>@ingredient.GetName()</option>
+                }
+            }
+            else
+            {
+                <option>No ingredients in Database</option>
+            }
+        </select><br>
+        <button id="assignButton"class="btn btn-primary btn-lg" type="submit">Assign</button>
+    </form>
+    <a href="/">Home Page</a><br>
+</div>
 <ul>
-@foreach (var recipe in @Model)
+@foreach (Recipe recipe in @Model["recipes"])
 {
     <li>@recipe.GetName()</li>
 }
 </ul>
 
-
-
-<a href = "">View All Recipes</a>
 </div>
