@@ -1,0 +1,21 @@
+@{
+  Layout = "_Layout";
+}
+
+<div class="container">
+<h3>Add a New category</h3>
+<form action = "/addCategory" method = "post">
+    <label for = "categoryName">category</label>
+    <input type = "text" name = "categoryName"><br>
+    
+    <button type = "submit">Add category</button>
+
+</form><br>
+<ul>
+@foreach (var category in @Model)
+{
+    <li>@category.GetName()</li>
+}
+</ul>
+
+</div>

@@ -105,6 +105,52 @@ namespace RecipeBox.Models
             }
             return foundRecipe;
         }
+        public void AddCategory(int categoryId, int recipeId)
+        {
+            MySqlConnection conn = DB.Connection();
+            conn.Open();
+            var cmd = conn.CreateCommand() as MySqlCommand;
+            cmd.CommandText = @"INSERT INTO categories_recipes (category_id, recipe_id) VALUES (@categoryId, @recipeId);";
+            MySqlParameter category_id = new MySqlParameter();
+            category_id.ParameterName = "@categoryId";
+            category_id.Value = categoryId;
+            cmd.Parameters.Add(category_id);
+            MySqlParameter recipe_id = new MySqlParameter();
+            recipe_id.ParameterName = "@recipeId";
+            recipe_id.Value = recipeId;
+            cmd.Parameters.Add(recipe_id);
+            cmd.ExecuteNonQuery();
+            conn.Close();
+            if (conn != null)
+            {
+                conn.Dispose();
+            }
+        }
+        public List<Category> FindCategoryOfRecipe(int recipeId)
+        {
+            List<Category> recipeCategories = new List<Category> { };
+            MySqlConnection conn = DB.Connection();
+            conn.Open();
+            var cmd = conn.CreateCommand() as MySqlCommand;
+            cmd.CommandText = @"SELECT categories.* FROM
+                categories JOIN categories_recipes ON (categories.id = categories_recipes.category_id)
+                WHERE categories_recipes.recipe_id =" + recipeId + ";";
+
+            MySqlDataReader rdr = cmd.ExecuteReader() as MySqlDataReader;
+            while (rdr.Read())
+            {
+                int categoryId = rdr.GetInt32(0);
+                string name = rdr.GetString(1);
+                Category recipeCategory = new Category(name, categoryId);
+                recipeCategories.Add(recipeCategory);
+            }
+            conn.Close();
+            if (conn != null)
+            {
+                conn.Dispose();
+            }
+            return recipeCategories;
+        }
     }
     // ************************* Join table methods are below ***************************
     public class JoinRecipeIngredient
