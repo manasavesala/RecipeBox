@@ -7,23 +7,26 @@
 
 <div class="container">
 <h1>Recipe for @Model["recipe"].GetName()</h1>
-<h4><b>Rating: @Model["recipe"].GetRating()</b></h4>
-<h4>Categories:<ul>
+<h2><b>Rating: @Model["recipe"].GetRating()</b></h2>
+<h2>Categories:<ul></h2>
+<h3>
 @foreach (Category category in @Model["categories"])
 {
     <li>@category.GetName()</li>
-}</h4>
-
-<h4>Ingredients</h4>
+}
+</h3>
+<h2>Ingredients:</h2>
 <ul>
+<h3>
 @foreach (Ingredient ingredient in @Model["ingredients"])
 {
     <li>@ingredient.GetName()</li>
 }
+</h3>
 </ul>
-<h4>Instructions</h4>
-<p>
+<h2>Instructions:</h2>
+<h3>
 @Model["recipe"].GetInstructions()
-</p>
+</h3>
 
 </div>
