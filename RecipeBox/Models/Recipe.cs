@@ -238,6 +238,21 @@ namespace RecipeBox.Models
                 conn.Dispose();
             }
         }
+        public static void RemoveIngredientFromRecipe(int ingredientId, int recipeId)
+        {
+            MySqlConnection conn = DB.Connection();
+            conn.Open();
+            var cmd = conn.CreateCommand() as MySqlCommand;
+            cmd.CommandText = @"DELETE FROM recipes_ingredients WHERE recipe_id = @recipeID AND ingredient_id = @ingredientId;";
+            cmd.Parameters.AddWithValue("@ingredientId", ingredientId);
+            cmd.Parameters.AddWithValue("@recipeId", recipeId);
+            cmd.ExecuteNonQuery();
+            conn.Close();
+            if (conn != null)
+            {
+                conn.Dispose();
+            }
+        }
 
         public static List<Recipe> GetRecipesByIngredient(int ingredientId)
         {

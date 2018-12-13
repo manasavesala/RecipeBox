@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using Microsoft.AspNetCore.Mvc;
 using RecipeBox.Models;
+using System;
 
 namespace RecipeBox.Controllers
 {
@@ -63,6 +64,12 @@ namespace RecipeBox.Controllers
         {
             Recipe selectedRecipe = Recipe.Find(recipeId);
             selectedRecipe.Edit(name, instructions, rating);
+            return RedirectToAction("Show");
+        }
+        [HttpGet("/recipe/{recipeId}/ingredient/{ingredientId}")]
+        public ActionResult DeleteIngredient(int recipeId, int ingredientId)
+        {
+            JoinRecipeIngredient.RemoveIngredientFromRecipe(ingredientId, recipeId);
             return RedirectToAction("Show");
         }
     }

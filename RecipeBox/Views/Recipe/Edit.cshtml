@@ -14,10 +14,9 @@
     <label for = "name">Recipe Name</label>
     <input type = "text" name = "name" value = "@Model.GetName()"><br>
     <label for = "instructions">Recipe Instructions</label>
-    <input type = "text" name = "instructions"><br>
+    <input type = "text" name = "instructions" value = "@Model.GetInstructions()"><br>
     <label for = "rating">Recipe Rating</label>
-    <input type = "number" name = "rating"><br>
+    <input type = "number" name = "rating" value = "@Model.GetRating()"><br>
     <button type = "submit">Edit Recipe</button>
-    <p><b>@Model.GetId()</b></p>
 
 </form><br>
