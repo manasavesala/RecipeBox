@@ -192,6 +192,48 @@ namespace RecipeBox.Models
                 conn.Dispose();
             }
         }
+        public static List<Recipe> SortByRating()
+        {
+            List<Recipe> sortedRecipes = new List<Recipe> { };
+            MySqlConnection conn = DB.Connection();
+            conn.Open();
+            var cmd = conn.CreateCommand() as MySqlCommand;
+            cmd.CommandText = @"SELECT * FROM recipes ORDER BY rating DESC;";
+            MySqlDataReader rdr = cmd.ExecuteReader() as MySqlDataReader;
+            while (rdr.Read())
+            {
+                int id = rdr.GetInt32(0);
+                string name = rdr.GetString(1);
+                string instructions = rdr.GetString(2);
+                int rating = rdr.GetInt32(3);
+
+                Recipe newRecipe = new Recipe(name, instructions, rating, id);
+                sortedRecipes.Add(newRecipe);
+            }
+            conn.Close();
+            if (conn != null)
+            {
+                conn.Dispose();
+            }
+            return sortedRecipes;
+        }
+
+        public void DeleteRecipe(int recipeId)
+        {
+            MySqlConnection conn = DB.Connection();
+            conn.Open();
+            var cmd = conn.CreateCommand() as MySqlCommand;
+            cmd.CommandText = @"DELETE FROM recipes WHERE id = @recipeId; DELETE FROM categories_recipes WHERE recipe_id = @recipeId;";
+            MySqlParameter recipeIdParameter = new MySqlParameter();
+            recipeIdParameter.ParameterName = "@recipeId";
+            recipeIdParameter.Value = recipeId;
+            cmd.Parameters.Add(recipeIdParameter);
+            cmd.ExecuteNonQuery();
+            if (conn != null)
+            {
+                conn.Close();
+            }
+        }
 
     }
     // ************************* Join table methods are below ***************************

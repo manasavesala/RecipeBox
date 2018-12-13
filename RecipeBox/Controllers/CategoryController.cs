@@ -33,5 +33,13 @@ namespace RecipeBox.Controllers
             return View("Show", model);
 
         }
+        [HttpGet("/category/{id}/delete")]
+        public ActionResult DeleteCategory(int id)
+        {
+
+            Category selectedCategory = Category.Find(id);
+            selectedCategory.DeleteCategory(id);
+            return RedirectToAction("New");
+        }
     }
 }

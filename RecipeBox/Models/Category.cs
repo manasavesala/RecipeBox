@@ -85,6 +85,22 @@ namespace RecipeBox.Models
             }
             return foundCategory;
         }
+        public void DeleteCategory(int categoryId)
+        {
+            MySqlConnection conn = DB.Connection();
+            conn.Open();
+            var cmd = conn.CreateCommand() as MySqlCommand;
+            cmd.CommandText = @"DELETE FROM categories WHERE id = @categoryId; DELETE FROM categories_recipes WHERE category_id = @categoryId;";
+            MySqlParameter categoryIdParameter = new MySqlParameter();
+            categoryIdParameter.ParameterName = "@categoryId";
+            categoryIdParameter.Value = this.GetId();
+            cmd.Parameters.Add(categoryIdParameter);
+            cmd.ExecuteNonQuery();
+            if (conn != null)
+            {
+                conn.Close();
+            }
+        }
 
         public static List<Recipe> FindRecipesOfCategory(int CategoryId)
         {

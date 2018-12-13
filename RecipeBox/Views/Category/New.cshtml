@@ -14,7 +14,9 @@
 <ul>
  @foreach (var category in @Model)
 {
-    <li><a href="/category/@category.GetId()/recipes">@category.GetName()</li>
+    <li><span style = "font-size: 22px;"><a href="/category/@category.GetId()/recipes">@category.GetName()</a></span><span style = 'font-size: 10px;'>
+      <a href = '/category/@category.GetId()/delete'>
+        Delete Category</a></span></li>
 }
 </ul>
 

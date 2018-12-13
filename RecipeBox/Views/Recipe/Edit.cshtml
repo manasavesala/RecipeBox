@@ -8,15 +8,45 @@
 <div class="container">
 <h3>Edit Recipe</h3>
 
-<form action = "/editRecipe/@Model.GetId()" method = "post">
-    <input name = "recipeId" type = "number" value = "@Model.GetId()" hidden>
+<form action = '/editRecipe/@Model["recipe"].GetId()' method = "post">
+    <input name = "recipeId" type = "number" value = '@Model["recipe"].GetId()' hidden>
     <label for = "ingredients">
     <label for = "name">Recipe Name</label>
-    <input type = "text" name = "name" value = "@Model.GetName()"><br>
+    <input type = "text" name = "name" value = '@Model["recipe"].GetName()'><br>
     <label for = "instructions">Recipe Instructions</label>
-    <input type = "text" name = "instructions" value = "@Model.GetInstructions()"><br>
+    <input type = "text" name = "instructions" value = '@Model["recipe"].GetInstructions()'><br>
     <label for = "rating">Recipe Rating</label>
-    <input type = "number" name = "rating" value = "@Model.GetRating()"><br>
-    <button type = "submit">Edit Recipe</button>
+    <input type = "number" name = "rating" value = '@Model["recipe"].GetRating()'><br>
+    <label for = "ingredient">Current Recipe Ingredients:
+    <br>
+    <ul>
+    @foreach(Ingredient recipeIngredient in @Model["recipesIngredients"])
+    {
+      <li>@recipeIngredient.GetName()<span style = 'font-size: 8px;'>
+      <a href = '/recipe/@Model["recipe"].GetId()/ingredient/@recipeIngredient.GetId()'>
+        Delete Ingredient</a></span></li>
+    }
+    </ul>
+    </label>
+    <br>
+    <h4>Add Ingredients:</h4>
+    <br>
+      <select name="ingredient">
+            @if (@Model.Count != 0)
+            {
+                @foreach(Ingredient ingredient in @Model["ingredients"])
+                {
+                    <option name="ingredient" value=@ingredient.GetId()>@ingredient.GetName()</option>
+                }
+            }
+            else
+            {
+                <option>No ingredients in Database</option>
+            }
+        </select><br><br>
+        <button id="assignButton"class="btn btn-primary btn-md" type="submit">Add Ingredient to Recipe</button>
+        <br>
+        <br>
+    <button type = "submit" class="btn btn-success btn-lg" >Submit Recipe Edits</button>
 
 </form><br>

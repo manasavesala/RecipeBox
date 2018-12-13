@@ -20,7 +20,7 @@
 <h3>
 @foreach (Ingredient ingredient in @Model["ingredients"])
 {
-    <li>@ingredient.GetName()<span style = 'color: red; font-size: 6px;'>
+    <li>@ingredient.GetName()<span style = 'color: red; font-size: 8px;'>
     <a href = '/recipe/@Model["id"]/ingredient/@ingredient.GetId()'>
     Delete Ingredient
     </a>
@@ -34,4 +34,5 @@
 @Model["recipe"].GetInstructions()
 </h3>
 <a href = '/recipe/@Model["id"]/edit'> Edit This Recipe</a>
+<a href = '/recipe/@Model["id"]/delete'> Delete This Recipe</a>
 </div>

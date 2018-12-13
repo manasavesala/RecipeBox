@@ -56,14 +56,22 @@ namespace RecipeBox.Controllers
         [HttpGet("recipe/{recipeId}/edit")]
         public ActionResult Edit(int recipeId)
         {
+            Dictionary<string, object> model = new Dictionary<string, object> { };
             Recipe selectedRecipe = Recipe.Find(recipeId);
-            return View(selectedRecipe);
+            List<Ingredient> allIngredients = Ingredient.GetAll();
+            List<Ingredient> recipesIngredients = JoinRecipeIngredient.GetIngredientsByRecipe(recipeId);
+            model.Add("recipe", selectedRecipe);
+            model.Add("ingredients", allIngredients);
+            model.Add("recipesIngredients", recipesIngredients);
+            return View(model);
         }
         [HttpPost("/editRecipe/{recipeId}")]
-        public ActionResult Update(int recipeId, string name, string instructions, int rating)
+        public ActionResult Update(int recipeId, string name, string instructions, int rating, int ingredient)
         {
             Recipe selectedRecipe = Recipe.Find(recipeId);
             selectedRecipe.Edit(name, instructions, rating);
+            JoinRecipeIngredient assigned = new JoinRecipeIngredient(ingredient, recipeId);
+            assigned.Save();
             return RedirectToAction("Show");
         }
         [HttpGet("/recipe/{recipeId}/ingredient/{ingredientId}")]
@@ -71,6 +79,19 @@ namespace RecipeBox.Controllers
         {
             JoinRecipeIngredient.RemoveIngredientFromRecipe(ingredientId, recipeId);
             return RedirectToAction("Show");
+        }
+        [HttpGet("/recipe/{id}/delete")]
+        public ActionResult DeleteRecipe(int id)
+        {
+            Recipe selectedRecipe = Recipe.Find(id);
+            selectedRecipe.DeleteRecipe(id);
+            return RedirectToAction("New");
+        }
+        [HttpGet("/showSorted")]
+        public ActionResult ShowSorted()
+        {
+            List<Recipe> sortedRecipeList = Recipe.SortByRating();
+            return View("Sort", sortedRecipeList);
         }
     }
 }
