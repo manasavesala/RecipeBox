@@ -85,5 +85,33 @@ namespace RecipeBox.Models
             }
             return foundCategory;
         }
+
+        public static List<Recipe> FindRecipesOfCategory(int CategoryId)
+        {
+            List<Recipe> recipeCategories = new List<Recipe> { };
+            MySqlConnection conn = DB.Connection();
+            conn.Open();
+            var cmd = conn.CreateCommand() as MySqlCommand;
+            cmd.CommandText = @"SELECT recipes.* FROM
+                recipes JOIN categories_recipes ON (recipes.id = categories_recipes.recipe_id)
+                WHERE categories_recipes.category_id =" + CategoryId + ";";
+
+            MySqlDataReader rdr = cmd.ExecuteReader() as MySqlDataReader;
+            while (rdr.Read())
+            {
+                int Id = rdr.GetInt32(0);
+                string name = rdr.GetString(1);
+                string instructions = rdr.GetString(2);
+                int rating = rdr.GetInt32(3);
+                Recipe recipeRecipe = new Recipe(name, instructions, rating, Id);
+                recipeCategories.Add(recipeRecipe);
+            }
+            conn.Close();
+            if (conn != null)
+            {
+                conn.Dispose();
+            }
+            return recipeCategories;
+        }
     }
 }

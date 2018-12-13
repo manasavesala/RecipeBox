@@ -49,7 +49,24 @@ namespace RecipeBox.Controllers
             model.Add("recipe", selectedRecipe);
             model.Add("ingredients", ingredientsForRecipe);
             model.Add("categories", categoriesOfRecipe);
+            model.Add("id", recipeId);
             return View("Detail", model);
         }
+        [HttpGet("recipe/{recipeId}/edit")]
+        public ActionResult Edit(int recipeId)
+        {
+            Recipe selectedRecipe = Recipe.Find(recipeId);
+            return View(selectedRecipe);
+        }
+        //  [HttpPost("/editRecipe")]
+        // public ActionResult Update(int id, string name, string instructions, int rating)
+        // {
+        //     Recipe selectedRecipe = Recipe.Find(id);
+        //     List<Category> categoriesOfRecipe = selectedRecipe.FindCategoryOfRecipe(recipeId);
+        //     model.Add("recipe", selectedRecipe);
+        //     model.Add("ingredients", ingredientsForRecipe);
+        //     model.Add("categories", categoriesOfRecipe);
+        //     return RedirectToAction("Detail", model);
+        // }
     }
 }

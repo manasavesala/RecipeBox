@@ -19,5 +19,19 @@ namespace RecipeBox.Controllers
             newCategory.Save();
             return RedirectToAction("New");
         }
+
+
+        [HttpGet("/category/{categoryId}/recipes")]
+        public ActionResult View(int categoryId)
+        {
+            Dictionary<string, object> model = new Dictionary<string, object> { };
+            Category category = Category.Find(categoryId);
+            List<Recipe> recipesByCategory = Category.FindRecipesOfCategory(categoryId);
+            List<Recipe> allRecipes = Recipe.GetAll();
+            model.Add("category", category);
+            model.Add("recipes", recipesByCategory);
+            return View("Show", model);
+
+        }
     }
 }

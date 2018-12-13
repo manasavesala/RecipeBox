@@ -12,9 +12,9 @@
 
 </form><br>
 <ul>
-@foreach (var category in @Model)
+ @foreach (var category in @Model)
 {
-    <li>@category.GetName()</li>
+    <li><a href="/category/@category.GetId()/recipes">@category.GetName()</li>
 }
 </ul>
 

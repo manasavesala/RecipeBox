@@ -151,6 +151,21 @@ namespace RecipeBox.Models
             }
             return recipeCategories;
         }
+
+        public static void ClearAll()
+        {
+            MySqlConnection conn = DB.Connection();
+            conn.Open();
+            var cmd = conn.CreateCommand() as MySqlCommand;
+            cmd.CommandText = @"DELETE FROM recipes;";
+            cmd.ExecuteNonQuery();
+            conn.Close();
+            if (conn != null)
+            {
+                conn.Dispose();
+            }
+        }
+
     }
     // ************************* Join table methods are below ***************************
     public class JoinRecipeIngredient
