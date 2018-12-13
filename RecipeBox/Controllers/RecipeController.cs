@@ -58,15 +58,12 @@ namespace RecipeBox.Controllers
             Recipe selectedRecipe = Recipe.Find(recipeId);
             return View(selectedRecipe);
         }
-        //  [HttpPost("/editRecipe")]
-        // public ActionResult Update(int id, string name, string instructions, int rating)
-        // {
-        //     Recipe selectedRecipe = Recipe.Find(id);
-        //     List<Category> categoriesOfRecipe = selectedRecipe.FindCategoryOfRecipe(recipeId);
-        //     model.Add("recipe", selectedRecipe);
-        //     model.Add("ingredients", ingredientsForRecipe);
-        //     model.Add("categories", categoriesOfRecipe);
-        //     return RedirectToAction("Detail", model);
-        // }
+        [HttpPost("/editRecipe/{recipeId}")]
+        public ActionResult Update(int recipeId, string name, string instructions, int rating)
+        {
+            Recipe selectedRecipe = Recipe.Find(recipeId);
+            selectedRecipe.Edit(name, instructions, rating);
+            return RedirectToAction("Show");
+        }
     }
 }

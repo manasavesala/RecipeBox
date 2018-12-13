@@ -97,7 +97,7 @@ namespace RecipeBox.Models
                 rating = rdr.GetInt32(3);
 
             }
-            Recipe foundRecipe = new Recipe(name, instructions, rating);
+            Recipe foundRecipe = new Recipe(name, instructions, rating, id);
             conn.Close();
             if (conn != null)
             {
@@ -150,6 +150,33 @@ namespace RecipeBox.Models
                 conn.Dispose();
             }
             return recipeCategories;
+        }
+
+        public void Edit(string name, string instructions, int rating)
+        {
+            MySqlConnection conn = DB.Connection();
+            conn.Open();
+            var cmd = conn.CreateCommand() as MySqlCommand;
+            cmd.CommandText = @"UPDATE recipes SET name = @name, instructions = @instructions, rating = @rating WHERE id = @searchId;";
+
+            MySqlParameter searchId = new MySqlParameter();
+            searchId.ParameterName = "@searchId";
+            searchId.Value = _id;
+            cmd.Parameters.Add(searchId);
+
+            cmd.Parameters.AddWithValue("@name", name);
+            cmd.Parameters.AddWithValue("@instructions", instructions);
+            cmd.Parameters.AddWithValue("@rating", rating);
+
+            cmd.ExecuteNonQuery();
+            _name = name;
+            _instructions = instructions;
+            _rating = rating;
+            conn.Close();
+            if (conn != null)
+            {
+                conn.Dispose();
+            }
         }
 
         public static void ClearAll()

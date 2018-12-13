@@ -8,8 +8,8 @@
 <div class="container">
 <h3>Edit Recipe</h3>
 
-<form action = "/editRecipe" method = "post">
-    <input name = "id" type = "number" value = "@Model.GetId()" hidden>
+<form action = "/editRecipe/@Model.GetId()" method = "post">
+    <input name = "recipeId" type = "number" value = "@Model.GetId()" hidden>
     <label for = "ingredients">
     <label for = "name">Recipe Name</label>
     <input type = "text" name = "name" value = "@Model.GetName()"><br>
@@ -18,5 +18,6 @@
     <label for = "rating">Recipe Rating</label>
     <input type = "number" name = "rating"><br>
     <button type = "submit">Edit Recipe</button>
+    <p><b>@Model.GetId()</b></p>
 
 </form><br>
