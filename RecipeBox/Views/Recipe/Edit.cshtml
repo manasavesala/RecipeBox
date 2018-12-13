@@ -14,7 +14,8 @@
     <label for = "name">Recipe Name</label>
     <input type = "text" name = "name" value = '@Model["recipe"].GetName()'><br>
     <label for = "instructions">Recipe Instructions</label>
-    <input type = "text" name = "instructions" value = '@Model["recipe"].GetInstructions()'><br>
+    <br>
+    <textarea name = "instructions" rows="10" cols="100" placeholder = '@Model["recipe"].GetInstructions()'></textarea><br>
     <label for = "rating">Recipe Rating</label>
     <input type = "number" name = "rating" value = '@Model["recipe"].GetRating()'><br>
     <label for = "ingredient">Current Recipe Ingredients:
@@ -22,7 +23,7 @@
     <ul>
     @foreach(Ingredient recipeIngredient in @Model["recipesIngredients"])
     {
-      <li>@recipeIngredient.GetName()<span style = 'font-size: 8px;'>
+      <li>@recipeIngredient.GetName()<span>
       <a href = '/recipe/@Model["recipe"].GetId()/ingredient/@recipeIngredient.GetId()'>
         Delete Ingredient</a></span></li>
     }

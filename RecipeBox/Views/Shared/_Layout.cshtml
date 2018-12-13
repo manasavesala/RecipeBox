@@ -4,19 +4,24 @@
     <meta charset="utf-8">
     <title>RecipeBox</title>
     <link rel=stylesheet href=https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css>
-    <link rel="stylesheet" href="~/css/styles.css">
+    <link rel="stylesheet" href="~/css/styles.css?v=1.02">
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
     <script src="~/js/scripts.js"></script>
+    <style>a{color: light-blue;}</style>
   </head>
   <body>
-    @RenderBody()
-    <div class = "container">
-      <h2><a href = "/recipe/new">View and Add Recipes</a><br></h2>
-      <h2><a href = "/recipe/new">Assign recipe to category</a><br></h2>
-      <h2><a href = "/recipe/new">Assign Ingredients to recipe</a><br></h2>
-      <h2><a href = "/ingredient/new">View and Add Ingredients</a><br></h2>
-      <h2><a href = "/category/new">View and Add Category</a><br></h2>
-      <h2><a href = "/">Home</a>
+      <div class = "container">
+    <ul class="nav nav-tabs nav-justified">
+     <li><a href = "/">Home</a></li>
+     <li><a href = "/recipe/new">View Recipes</a></li>
+     <li><a href = "/recipe/new">Assign Category</a></li>
+     <li><a href = "/recipe/new">Assign Ingredients</a></li>
+     <li><a href = "/ingredient/new">View Ingredients</a></li>
+     <li><a href = "/category/new">View Categories</a></li><br>
+       
+      </ul>
     </div>
+    @RenderBody()
+
   </body>
 </html>
